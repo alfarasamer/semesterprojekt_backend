@@ -1,13 +1,23 @@
 package com.example.semesterprojektbackend.model;
 
 public class Category extends SubCategory{
+    private int categoryId;
     private String categoryName;
     private int numberOfProducts;
 
-    public Category(String subCategory,String categoryName,int numberOfProducts) {
+    public Category(int categoryId, String subCategory,String categoryName,int numberOfProducts) {
         super(subCategory);
+        this.categoryId=categoryId;
         this.categoryName=categoryName;
         this.numberOfProducts=numberOfProducts;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Category(String categoryName) {
