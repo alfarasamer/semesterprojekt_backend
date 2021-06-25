@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.Registration;
-
 @RestController
 public class UserRegistrationController {
     @GetMapping("/registration")
@@ -21,14 +19,21 @@ public class UserRegistrationController {
     }
 
     private UserRegistration getDemoRegistration() {
-        return new UserRegistration(1,"Max", "Mustermann", "muster@qq.com", "musteruser", "passwordtest");
+        return new UserRegistration("Max", "Mastermind", "muster@qq.com", "musters", "passwords");
     }
+
     @PostMapping("/registration")
-    public Registration postRegistration(){return postRegistration()}
+    public UserRegistration postRegistration() {
+        return postDemoRegistration();
+    }
+
     @PostMapping("/registration/{userId}")
-    public UserRegistration postRegistrationPath(@PathVariable int userId){return postDemoRegistration();}
-    private UserRegistration postDemoRegistration(){
-        return new UserRegistration(1,"Maxpost","Mustermanpost","mustermail@muster.com","musteruserpost","musterpasswordpost")
+    public UserRegistration postRegistrationPath(@PathVariable int userId) {
+        return postDemoRegistration();
+    }
+
+    private UserRegistration postDemoRegistration() {
+        return new UserRegistration("Maps", "Mastermind", "mustermail@muster.com", "mysterious", "masterclasses");
     }
 }
 

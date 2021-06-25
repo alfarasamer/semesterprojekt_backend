@@ -12,13 +12,11 @@ public class CategoryController {
     public Category getCategory() {
         return getDemoCategory();
     }
-
-    @GetMapping("/categories/{category}")
-    public Category getCategoryPath(@PathVariable String category) {
+    @GetMapping("/categories/{categoryId}")
+    public Category getCategoryPath(@PathVariable int categoryId) {
         return getDemoCategory();
     }
-
     private Category getDemoCategory() {
-        return new Category("Category1", 3);
+        return new Category(10, "Sub Category1",1,"Main Category1");
     }
 }
