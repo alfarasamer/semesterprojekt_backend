@@ -1,6 +1,6 @@
 package com.example.semesterprojektbackend.model;
 
-public class UserRegestration {
+public class UserRegistration {
 
     private String firstname;
     private String lastname;
@@ -8,7 +8,7 @@ public class UserRegestration {
     private String userName;
     private String password;
 
-    public UserRegestration(String firstname, String lastname, String eMail, String userName, String password) {
+    public UserRegistration(String firstname, String lastname, String eMail, String userName, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.eMail = eMail;
