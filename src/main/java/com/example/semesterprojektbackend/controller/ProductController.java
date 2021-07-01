@@ -1,40 +1,43 @@
+//Done, need review
+
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 public class ProductController {
     @GetMapping("/products")
-    public Product getLogin() {
-        return getDemoProduct();
+    public ArrayList<Product> getProducts() {
+        return null;
+        // TODO: 29/06/2021 to return all products
     }
 
     @GetMapping("/products/{itemNumber}")
     public Product getProductPath(@PathVariable int itemNumber) {
-        return getDemoProduct();
-    }
-
-    private Product getDemoProduct() {
-        return new Product(123,"T-shirt","L",1,2,true,99.5);
+        return demoProduct();
+        // TODO: 29/06/2021 to return a specific item
     }
 
     @PostMapping("/products")
-    public Product postProduct() {
-        return postDemoProduct();
+    public Product postProductPath(@RequestBody Product product) {
+        // TODO: 29/06/2021 to create a new item
     }
 
-    @PostMapping("/registration/{itemNumber}")
-    public Product postProductPath(@PathVariable int itemNumber) {
-        return postDemoProduct();
+    @PutMapping("/products/{itemNumber}")
+    public Product putProductPath(@PathVariable int itemNumber,@RequestBody Product product) {
+        // TODO: 29/06/2021 to edit a specific product
     }
 
-    private Product postDemoProduct() {
-        return new Product(123,"Shirt", "XL", 12, true, 55.33);
+    @DeleteMapping("/products/{itemNumber}")
+    public Product deleteProductPath(@PathVariable int itemNumber) {
+        // TODO: 29/06/2021 to delete a specific product
     }
 
-
+    private Product demoProduct() {
+        return new Product(123, "T-shirt","T-Shirt long description", "L", 1, 2, true, 99.5);
+        // TODO: 29/06/2021 to be deleted later! }
+}
 }

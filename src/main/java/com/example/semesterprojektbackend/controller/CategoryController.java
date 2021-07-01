@@ -1,22 +1,43 @@
+//Done, need review
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Category;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.semesterprojektbackend.model.Product;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 public class CategoryController {
 
     @GetMapping("/categories")
-    public Category getCategory() {
-        return getDemoCategory();
+    public ArrayList<Category> getCategory() {
+        return null;
+        // TODO: 29/06/2021 to get all categories 
     }
     @GetMapping("/categories/{categoryId}")
     public Category getCategoryPath(@PathVariable int categoryId) {
-        return getDemoCategory();
+        return demoCategory();
+        // TODO: 29/06/2021 to get a specific category 
     }
-    private Category getDemoCategory() {
-        return new Category(10, "Sub Category1",1,"Main Category1");
+
+    @PostMapping("/categories")
+    public Product postCategoryPath(@RequestBody Category category) {
+        // TODO: 29/06/2021 to create a new category
     }
+
+    @PutMapping("/categories/{categoryId}")
+    public Product putCategoryPath(@PathVariable int categoryId, @RequestBody Category category) {
+        // TODO: 29/06/2021 to edit category information
+    }
+
+    @DeleteMapping("/categories/{categoryId}")
+    public Product deleteCategoryPath(@PathVariable int categoryId) {
+        // TODO: 29/06/2021 to delete a specific category
+    }
+
+    private Category demoCategory() {
+        return new Category( 1, "Main Category1");
+        // TODO: 29/06/2021 to be deleted later! }
+}
 }

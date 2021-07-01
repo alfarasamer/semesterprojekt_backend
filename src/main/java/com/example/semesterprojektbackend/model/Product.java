@@ -1,17 +1,21 @@
+// Done
+
 package com.example.semesterprojektbackend.model;
 
 public class Product {
     private int itemNumber;
     private String productDescription;
+    private String productLongDescription;
     private String size;
     private int category;
     private int subCategory;
     private boolean status;
     private double price;
 
-    public Product(int itemNumber, String productDescription, String size, int category, int subCategory, boolean status, double price) {
+    public Product(int itemNumber, String productDescription,String productLongDescription, String size, int category, int subCategory, boolean status, double price) {
         this.itemNumber = itemNumber;
         this.productDescription = productDescription;
+        this.productLongDescription=productLongDescription;
         this.size = size;
         this.category = category;
         this.subCategory = subCategory;
@@ -19,14 +23,6 @@ public class Product {
         this.price = price;
     }
 
-    public Product(int itemNumber, String productDescription, String size, int category, boolean status, double price) {
-        this.itemNumber = itemNumber;
-        this.productDescription = productDescription;
-        this.size = size;
-        this.category = category;
-        this.status = status;
-        this.price = price;
-    }
 
     public int getItemNumber() {
         return itemNumber;
@@ -82,5 +78,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getProductLongDescription() {
+        return productLongDescription;
+    }
+
+    public void setProductLongDescription(String productLongDescription) {
+        this.productLongDescription = productLongDescription;
     }
 }
