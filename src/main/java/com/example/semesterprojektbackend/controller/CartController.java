@@ -25,6 +25,7 @@ public class CartController {
     @PutMapping("/cart/{cartId}")
     public Cart putCartPath(@PathVariable int cartId, @RequestBody Cart cart) {
         // TODO: 29/06/2021 to edit a user cart
+    return null;
     }
 
     private Cart demoCart() {

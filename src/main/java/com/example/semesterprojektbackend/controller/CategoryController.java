@@ -23,17 +23,20 @@ public class CategoryController {
 
     @PostMapping("/categories")
     public Product postCategoryPath(@RequestBody Category category) {
+        return null;
         // TODO: 29/06/2021 to create a new category
     }
 
     @PutMapping("/categories/{categoryId}")
     public Product putCategoryPath(@PathVariable int categoryId, @RequestBody Category category) {
         // TODO: 29/06/2021 to edit category information
+    return null;
     }
 
     @DeleteMapping("/categories/{categoryId}")
     public Product deleteCategoryPath(@PathVariable int categoryId) {
         // TODO: 29/06/2021 to delete a specific category
+    return null;
     }
 
     private Category demoCategory() {

@@ -22,11 +22,13 @@ public class UserController {
     @PostMapping("/user")
     public User postUserPath(@RequestBody User user) {
          // TODO: 29/06/2021 to create a new user
+    return null;
     }
 
     @PutMapping("/users/{userId}")
     public User putUserPath(@PathVariable int userId, @RequestBody User user) {
         // TODO: 29/06/2021 to edit user data
+    return null;
     }
 
     @DeleteMapping("/user/{userId}")

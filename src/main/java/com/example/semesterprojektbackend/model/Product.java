@@ -1,8 +1,15 @@
-// Done
-
 package com.example.semesterprojektbackend.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int itemNumber;
     private String productDescription;
     private String productLongDescription;
@@ -21,6 +28,10 @@ public class Product {
         this.subCategory = subCategory;
         this.status = status;
         this.price = price;
+    }
+
+    public Product() {
+
     }
 
 
