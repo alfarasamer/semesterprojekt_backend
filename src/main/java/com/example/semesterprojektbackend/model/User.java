@@ -1,6 +1,19 @@
 package com.example.semesterprojektbackend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 private int userId;
     private String salutation;
     private String firstname;
@@ -14,7 +27,7 @@ private int userId;
     private String password;
     private boolean active;
     private String role;
-    private Cart cart;
+    //private Cart cart;
 
     public User(String salutation, String firstname, String lastname, int plz, String city, String street, int houseNumber, String eMail, String userName, String password, boolean active, String role) {
         this.salutation = salutation;
@@ -135,11 +148,6 @@ private int userId;
         this.userId = userId;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
+
 }
