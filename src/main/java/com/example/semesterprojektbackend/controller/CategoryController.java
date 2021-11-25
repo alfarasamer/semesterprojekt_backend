@@ -3,28 +3,37 @@ package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Category;
 import com.example.semesterprojektbackend.model.Product;
+import com.example.semesterprojektbackend.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CategoryController {
 
-    @GetMapping("/categories")
-    public ArrayList<Category> getCategory() {
-        return null;
-        // TODO: 29/06/2021 to get all categories 
-    }
-    @GetMapping("/categories/{categoryId}")
-    public Category getCategoryPath(@PathVariable int categoryId) {
-        return demoCategory();
-        // TODO: 29/06/2021 to get a specific category 
+    private final CategoryService categoryService;
+
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
-    @PostMapping("/categories")
-    public Product postCategoryPath(@RequestBody Category category) {
-        return null;
-        // TODO: 29/06/2021 to create a new category
+    @GetMapping("/categories")
+    public String getCategory(){
+        List<Category> categoryList = categoryService.getCategories();
+        return categoryList.toString();
+        // TODO: 29/06/2021 to get all categories 
+    }
+
+    @GetMapping("/categories/{categoryId}")
+    public Optional<Category> findById(@PathVariable int categoryId){
+        return categoryService.findById(categoryId);
+    }
+
+    @PostMapping("/categories/addNew")
+    public String addNew(Category category){
+        categoryService.save(category);
+        return "redirect:/categories";
     }
 
     @PutMapping("/categories/{categoryId}")

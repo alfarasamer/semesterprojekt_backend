@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     private Product demoProduct() {
-        return new Product(123, "T-shirt","T-Shirt long description", "L", 1, 2, true, 99.5);
+        return  null; //new Product(123, "T-shirt","T-Shirt long description", "L", 1, 2, true, 99.5);
         // TODO: 29/06/2021 to be deleted later! }
 }
 }
