@@ -1,36 +1,36 @@
 package com.example.semesterprojektbackend.controller;
 
-import com.example.semesterprojektbackend.model.User;
+import com.example.semesterprojektbackend.model.Customer;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-public class UserController {
+public class CustomerController {
 
     @GetMapping("/user")
-    public ArrayList<User> getUser() {
+    public ArrayList<Customer> getUser() {
         return null; // TODO: 29/06/2021 to list all users
     }
 
     @GetMapping("/user/{userId}")
-    public User getUserPath(@PathVariable int userId) {
+    public Customer getUserPath(@PathVariable int userId) {
         return null;// TODO: 29/06/2021 to return a specific user
     }
 
     @PostMapping("/user")
-    public User postUserPath(@RequestBody User user) {
+    public Customer postUserPath(@RequestBody Customer customer) {
          // TODO: 29/06/2021 to create a new user
     return null;
     }
 
     @PutMapping("/users/{userId}")
-    public User putUserPath(@PathVariable int userId, @RequestBody User user) {
+    public Customer putUserPath(@PathVariable int userId, @RequestBody Customer customer) {
         // TODO: 29/06/2021 to edit user data
     return null;
     }
 
     @DeleteMapping("/user/{userId}")
-    public User deleteUserPath(@PathVariable int userId) {
+    public Customer deleteUserPath(@PathVariable int userId) {
         return null;
         // TODO: 29/06/2021 to delete a specific user
     }

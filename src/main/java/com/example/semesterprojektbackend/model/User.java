@@ -1,31 +1,25 @@
 package com.example.semesterprojektbackend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+@Getter
+//@Setter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
+    @GeneratedValue
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
-    private String salutation;
-    private String firstname;
-    private String lastname;
-    private int plz;
-    private String city;
-    private String street;
-    private int houseNumber;
-    private String eMail;
-    private String userName;
+    private Long id;
+    @Column(nullable = false, unique = true)
+    private String username;
+    @JsonIgnore
+    @Column(nullable = false)
     private String password;
-    private boolean active;
-    private String role;
-    //private Cart cart;
-
+    @Column(nullable = false)
+    private String role = "ROLE_USER";
 }
