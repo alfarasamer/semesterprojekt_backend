@@ -1,5 +1,7 @@
-package com.example.semesterprojektbackend.security.dto;
+package com.example.semesterprojektbackend.security;
 
+import com.example.semesterprojektbackend.security.dto.LoginRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,18 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private static final String ERROR_MESSAGE = "";
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         String requestBody;
         try {
             requestBody = request.getReader().lines().collect(Collectors.joining());
-            System.out.println("This is the request Body"+requestBody);
             ObjectMapper objectMapper = new ObjectMapper();
             LoginRequest loginRequest = objectMapper.readValue(requestBody, LoginRequest.class);
             UsernamePasswordAuthenticationToken authenticationToken

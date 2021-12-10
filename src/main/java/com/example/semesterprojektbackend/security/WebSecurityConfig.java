@@ -1,7 +1,5 @@
 package com.example.semesterprojektbackend.security;
 
-import com.example.semesterprojektbackend.security.dto.CustomAuthenticationSuccessHandler;
-import com.example.semesterprojektbackend.security.dto.JsonUsernamePasswordAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

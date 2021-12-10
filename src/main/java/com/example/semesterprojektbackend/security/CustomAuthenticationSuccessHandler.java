@@ -1,6 +1,8 @@
-package com.example.semesterprojektbackend.security.dto;
+package com.example.semesterprojektbackend.security;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -18,4 +20,9 @@ public class CustomAuthenticationSuccessHandler
             throws IOException, ServletException {
         clearAuthenticationAttributes(request);
     }
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
+
 }
