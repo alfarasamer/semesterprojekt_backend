@@ -1,55 +1,59 @@
-//Done, need review
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Category;
-import com.example.semesterprojektbackend.model.Product;
+import com.example.semesterprojektbackend.repositories.CategoryRepo;
 import com.example.semesterprojektbackend.service.CategoryService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 public class CategoryController {
 
+    private final CategoryRepo categoryRepo;
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryRepo categoryRepo, CategoryService categoryService) {
+        this.categoryRepo = categoryRepo;
         this.categoryService = categoryService;
     }
 
     @GetMapping("/categories")
-    public String getCategory(){
-        List<Category> categoryList = categoryService.getCategories();
-        return categoryList.toString();
-        // TODO: 29/06/2021 to get all categories 
+    public List<Category> getCategory() {
+        return categoryService.getCategories();
     }
 
     @GetMapping("/categories/{categoryId}")
-    public Optional<Category> findById(@PathVariable int categoryId){
+    public Optional<Category> findById(@PathVariable int categoryId) {
         return categoryService.findById(categoryId);
     }
 
     @PostMapping("/categories/addNew")
-    public String addNew(Category category){
+    public String addNew(@Validated @RequestBody Category category) {
         categoryService.save(category);
         return "redirect:/categories";
     }
 
     @PutMapping("/categories/{categoryId}")
-    public Product putCategoryPath(@PathVariable int categoryId, @RequestBody Category category) {
-        // TODO: 29/06/2021 to edit category information
-    return null;
+    public ResponseEntity<Category> updateCategory(@PathVariable Integer categoryId, @RequestBody Category categoryDetails) {
+        Category category = categoryService.findById(categoryId)
+                .orElseThrow(() -> new NullPointerException("Category not exist with id :" + categoryId));
+        category.setCategoryName(categoryDetails.getCategoryName());
+        Category updatedCategory = categoryRepo.save(category);
+        return ResponseEntity.ok(updatedCategory);
     }
 
     @DeleteMapping("/categories/{categoryId}")
-    public Product deleteCategoryPath(@PathVariable int categoryId) {
-        // TODO: 29/06/2021 to delete a specific category
-    return null;
+    public ResponseEntity<Map<String, Boolean>> deleteCategory(@PathVariable Integer categoryId) {
+        categoryService.delete(categoryId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return ResponseEntity.ok(response);
     }
 
-    private Category demoCategory() {
-        return new Category( 1, "Main Category1");
-        // TODO: 29/06/2021 to be deleted later! }
-}
 }

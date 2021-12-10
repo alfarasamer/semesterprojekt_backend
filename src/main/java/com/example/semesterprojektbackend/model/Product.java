@@ -1,8 +1,7 @@
 package com.example.semesterprojektbackend.model;
-
 import lombok.*;
-
 import javax.persistence.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,11 +15,8 @@ public class Product {
     private String productDescription;
     private String productLongDescription;
     private String size;
-    @ManyToOne
-    @JoinColumn(name = "categoryid",insertable = false,updatable = false)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
-    private int categoryid;
-    private enum status {A,NA}
+    //private boolean status;
     private double price;
-
 }

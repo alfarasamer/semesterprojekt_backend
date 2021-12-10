@@ -2,9 +2,7 @@ package com.example.semesterprojektbackend.service;
 
 import com.example.semesterprojektbackend.model.Category;
 import com.example.semesterprojektbackend.repositories.CategoryRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

@@ -1,22 +1,19 @@
-// Done, need review
 package com.example.semesterprojektbackend.model;
 
-import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cart {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartId;
-    private ArrayList<Product> products;
-
-    public Cart(int cartId, ArrayList<Product> products) {
-        this.cartId = cartId;
-        this.products = products;
-    }
-
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
+    @OneToMany(mappedBy = "itemNumber")
+    private List<Product> products;
 }
