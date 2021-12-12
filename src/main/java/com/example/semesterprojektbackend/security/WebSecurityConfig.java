@@ -37,6 +37,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin")
                 .access("hasRole('ROLE_ADMIN')");
+        http
+                // "/admin" accessible by user with ROLE_ADMIN
+                .authorizeRequests()
+                .antMatchers("/categories")
+                .access("hasRole('ROLE_USER')");
         // http
                 // lock every route
               //  .authorizeRequests()
