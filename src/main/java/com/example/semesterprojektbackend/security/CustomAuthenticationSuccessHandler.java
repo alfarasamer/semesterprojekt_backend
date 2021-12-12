@@ -20,6 +20,9 @@ public class CustomAuthenticationSuccessHandler
             throws IOException, ServletException {
         clearAuthenticationAttributes(request);
     }
-
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
 
 }
