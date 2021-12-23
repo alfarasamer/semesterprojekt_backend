@@ -23,10 +23,10 @@ public class ProductService {
         productRepo.save(product);
     }
 
-    public Optional<Product> findById(int id){
+    public Optional<Product> findById(Long id){
         return productRepo.findById(id);
     }
-    public void delete (int id){
+    public void delete (Long id){
         productRepo.deleteById(id);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.semesterprojektbackend.security;
 
 import com.example.semesterprojektbackend.model.User;
-import com.example.semesterprojektbackend.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

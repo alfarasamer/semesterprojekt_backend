@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int itemNumber;
+    private Long itemNumber;
     private String productDescription;
     private String productLongDescription;
     private String size;

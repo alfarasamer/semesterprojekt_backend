@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{itemNumber}")
-    public Optional<Product> getProductPath(@PathVariable int itemNumber) {
+    public Optional<Product> getProductPath(@PathVariable Long itemNumber) {
         return productService.findById(itemNumber);
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/{itemNumber}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer itemNumber, @RequestBody Product productDetails) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long itemNumber, @RequestBody Product productDetails) {
         Product product = productService.findById(itemNumber)
                 .orElseThrow(() -> new NullPointerException("Category not exist with id :" + itemNumber));
 
@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{itemNumber}")
-    public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable Integer itemNumber) {
+    public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable Long itemNumber) {
         productService.delete(itemNumber);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);

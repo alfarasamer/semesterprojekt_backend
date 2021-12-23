@@ -1,4 +1,4 @@
-package com.example.semesterprojektbackend.repositories;
+package com.example.semesterprojektbackend.security;
 
 import com.example.semesterprojektbackend.model.User;
 import org.springframework.data.repository.CrudRepository;
