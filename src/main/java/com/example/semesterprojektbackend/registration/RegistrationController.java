@@ -3,9 +3,9 @@ package com.example.semesterprojektbackend.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping(path = "registration")
+@RequestMapping(path = "/registration")
 @AllArgsConstructor
+@RestController
 public class RegistrationController {
 
     private final RegistrationService registrationService;

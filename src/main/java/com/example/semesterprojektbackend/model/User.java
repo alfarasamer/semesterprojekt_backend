@@ -1,6 +1,6 @@
 package com.example.semesterprojektbackend.model;
 
-import com.example.semesterprojektbackend.model.enumuration.UserRole;
+import com.example.semesterprojektbackend.model.enumuration.Role;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -21,41 +20,49 @@ import java.util.Collections;
 @Entity
 public class User implements UserDetails {
 
+    @SequenceGenerator(
+            name = "users_sequence",
+            sequenceName = "users_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "users_sequence"
+    )
     private Long id;
-    @NotBlank @Column(nullable = false)
+    //@NotBlank @Column(nullable = false)
     private String firstName;
-    @NotBlank @Column(nullable = false)
+    //@NotBlank @Column(nullable = false)
     private String lastName;
-    @NotBlank @Column(nullable = false, unique = true)
+    //@NotBlank @Column(nullable = false, unique = true)
     private String email;
-    @NotBlank @Column(nullable = false)
+    //@NotBlank @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    @NotBlank @Column(nullable = false)
-    private UserRole userRole;
-    @NotBlank @Column(nullable = false)
+    //@Column(nullable = false)
+    private Role role;
+    //@NotBlank @Column(nullable = false)
     private Boolean locked = false;
-    @NotBlank @Column(nullable = false)
+    //@NotBlank @Column(nullable = false)
     private Boolean enabled = false;
 
     public User(String firstName,
                    String lastName,
                    String email,
                    String password,
-                   UserRole userRole) {
+                   Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(userRole.name());
+                new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(authority);
     }
 
