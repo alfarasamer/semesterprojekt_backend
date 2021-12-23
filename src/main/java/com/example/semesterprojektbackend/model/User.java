@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -31,20 +32,19 @@ public class User implements UserDetails {
             generator = "users_sequence"
     )
     private Long id;
-    //@NotBlank @Column(nullable = false)
+    @NotBlank
+    @Column(nullable = false)
     private String firstName;
-    //@NotBlank @Column(nullable = false)
+    @NotBlank @Column(nullable = false)
     private String lastName;
-    //@NotBlank @Column(nullable = false, unique = true)
+    @NotBlank @Column(nullable = false, unique = true)
     private String email;
-    //@NotBlank @Column(nullable = false)
+    @NotBlank @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private Role role;
-    //@NotBlank @Column(nullable = false)
     private Boolean locked = false;
-    //@NotBlank @Column(nullable = false)
     private Boolean enabled = false;
 
     public User(String firstName,
