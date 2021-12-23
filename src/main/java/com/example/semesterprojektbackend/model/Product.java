@@ -13,8 +13,16 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class Product {
 
+    @SequenceGenerator(
+            name = "products_sequence",
+            sequenceName = "products_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "products_sequence"
+    )
     private Long itemNumber;
 
     @NotBlank
