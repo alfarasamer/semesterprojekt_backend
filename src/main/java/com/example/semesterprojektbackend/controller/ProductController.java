@@ -6,6 +6,8 @@ import com.example.semesterprojektbackend.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public String addNew(@Validated @RequestBody Product product) {
+    public String addNew(@Valid @RequestBody Product product) {
         productService.save(product);
         return "redirect:/products";
     }

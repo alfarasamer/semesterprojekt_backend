@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer extends User{
+public class Customer{
 
     @SequenceGenerator(
             name = "customers_sequence",

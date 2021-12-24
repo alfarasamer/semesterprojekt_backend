@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/")
                 .permitAll();
         http
-         // "/admin" accessible by user with ROLE_ADMIN
+                // "/admin" accessible by user with ROLE_ADMIN
                 .authorizeRequests()
                 .antMatchers("/admin")
                 .access("hasRole('ROLE_ADMIN')");
@@ -43,11 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/categories")
                 .access("hasRole('ROLE_USER')");
         // http
-                // lock every route
-              //  .authorizeRequests()
-                //.anyRequest()
-               // .authenticated();
-         http
+        // lock every route
+        //  .authorizeRequests()
+        //.anyRequest()
+        // .authenticated();
+        http
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .permitAll();
@@ -73,10 +75,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 );
         http
 
-        // turn csrf on
+                // turn csrf on
                 .csrf()
                 .disable();
-
 
 
     }
@@ -99,6 +100,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return this.customUserDetailService;
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -107,15 +109,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
-        //authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        //authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 
         return authenticationProvider;
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
+
     public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter()
             throws Exception {
         JsonUsernamePasswordAuthenticationFilter authenticationFilter
@@ -130,9 +134,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAuthenticationSuccessHandler();
     }
 
-
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/products").allowedOrigins("http://127.0.0.1:5500/");
+            }
+        };
+    }
 }
-
 
 
 

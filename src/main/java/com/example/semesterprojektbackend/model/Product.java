@@ -4,6 +4,7 @@ import com.example.semesterprojektbackend.model.enumuration.Status;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,6 +46,7 @@ public class Product {
     private Status status;
 
     @NotBlank
+    @Positive
     @Column(nullable = false)
     private double price;
 }

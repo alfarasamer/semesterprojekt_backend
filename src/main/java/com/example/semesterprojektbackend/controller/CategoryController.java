@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,8 @@ public class CategoryController {
         return categoryService.findById(categoryId);
     }
 
-    @PostMapping("/categories/addNew")
-    public String addNew(@Validated @RequestBody Category category) {
+    @PostMapping("/categories/")
+    public String addNew(@Valid @RequestBody Category category) {
         categoryService.save(category);
         return "redirect:/categories";
     }
