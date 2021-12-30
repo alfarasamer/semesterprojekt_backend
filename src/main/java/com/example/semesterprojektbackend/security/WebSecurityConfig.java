@@ -1,5 +1,3 @@
-// https://www.marcobehler.com/guides/spring-security
-
 package com.example.semesterprojektbackend.security;
 
 import org.springframework.context.annotation.Bean;
@@ -10,92 +8,44 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final CustomUserDetailService customUserDetailService;
+
     public WebSecurityConfig(CustomUserDetailService customUserDetailService) {
         this.customUserDetailService = customUserDetailService;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http // "/home" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/")
-                .permitAll();
-        http
-                // "/admin" accessible by user with ROLE_ADMIN
-                .authorizeRequests()
-                .antMatchers("/admin")
-                .access("hasRole('ROLE_ADMIN')");
-        http
-                // "/admin" accessible by user with ROLE_ADMIN
-                .authorizeRequests()
-                .antMatchers("/categories")
-                .access("hasRole('ROLE_USER')");
-        // http
-        // lock every route
-        //  .authorizeRequests()
-        //.anyRequest()
-        // .authenticated();
-        http
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .permitAll();
-        http
-                .logout()
-                .logoutUrl("/logout")
-                .permitAll();
-        http
-                .addFilterAt(
-                        usernamePasswordAuthenticationFilter(),
-                        UsernamePasswordAuthenticationFilter.class
-                );
-        http
-                .exceptionHandling()
-                .accessDeniedHandler(
-                        (httpServletRequest, httpServletResponse, e) ->
-                                httpServletResponse.sendError(
-                                        HttpServletResponse.SC_FORBIDDEN
-                                )
-                )
-                .authenticationEntryPoint(
-                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
-                );
-        http
-
-                // turn csrf on
-                .csrf()
-                .disable();
-
-
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 
-    /*@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http // lock every route
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated();
+    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter()
+            throws Exception {
+        JsonUsernamePasswordAuthenticationFilter authenticationFilter
+                = new JsonUsernamePasswordAuthenticationFilter();
+        authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return authenticationFilter;
     }
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-    }*/
-
-    private final CustomUserDetailService customUserDetailService;
-
     @Bean
     public UserDetailsService userDetailsService() {
         return this.customUserDetailService;
@@ -110,40 +60,95 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
-        //authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-
         return authenticationProvider;
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter()
-            throws Exception {
-        JsonUsernamePasswordAuthenticationFilter authenticationFilter
-                = new JsonUsernamePasswordAuthenticationFilter();
-        authenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
-        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        return authenticationFilter;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        /* security configuration */
+
+        http
+                // configure CORS -- uses a Bean by the name of corsConfigurationSource (see method below)
+                // CORS must be configured prior to Spring Security
+                .cors()
+                //.and()
+                //  .sessionManagement()
+                //.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                    .authorizeRequests()
+//                    .antMatchers("/*")
+//                    .permitAll()
+                .and()
+                .csrf()
+                .disable();
+
+        http    // "/users" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/users")
+                .permitAll();
+
+        http    // "/products" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/products")
+                .permitAll();
+        http    // "/products" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/registration")
+                .permitAll();
+
+        http    // "/category" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/categories")
+                .permitAll();
+
+        http    // "/admin" accessible by user with ROLE_ADMIN
+                .authorizeRequests()
+                .antMatchers("/admin")
+                .access("hasRole('ROLE_ADMIN')");
+
+        http    // lock every route
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated();
+
+        http
+                .addFilterAt(
+                        usernamePasswordAuthenticationFilter(),
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
+        http
+                .exceptionHandling()
+                .accessDeniedHandler(
+                        (httpServletRequest, httpServletResponse, e) ->
+                                httpServletResponse.sendError(
+                                        HttpServletResponse.SC_FORBIDDEN
+                                )
+                )
+                .authenticationEntryPoint(
+                        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+                );
     }
 
     @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler();
-    }
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5500"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+        // setAllowCredentials(true) is important, otherwise:
+        // The value of the 'Access-Control-Allow-Origin' header in the response must
+        // not be the wildcard '*' when the request's credentials mode is 'include'.
+        configuration.setAllowCredentials(true);
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/products").allowedOrigins("http://127.0.0.1:5500/");
-            }
-        };
+        // setAllowedHeaders is important! Without it, OPTIONS preflight request
+        // will fail with 403 Invalid CORS request
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
-
-
-
