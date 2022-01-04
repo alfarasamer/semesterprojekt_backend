@@ -13,7 +13,7 @@ import java.util.List;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cartId;
+    private int id;
     @OneToMany(mappedBy = "itemNumber")
     private List<Product> products;
 }

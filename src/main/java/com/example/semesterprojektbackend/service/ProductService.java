@@ -19,8 +19,9 @@ public class ProductService {
         return productRepo.findAll();
     }
 
-    public void save(Product product){
+    public Product save(Product product){
         productRepo.save(product);
+        return product;
     }
 
     public Optional<Product> findById(Long id){

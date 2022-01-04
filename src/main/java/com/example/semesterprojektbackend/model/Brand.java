@@ -4,28 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
 @Entity
-public class Category {
-
+public class Brand {
     @SequenceGenerator(
-            name = "categories_sequence",
-            sequenceName = "categories_sequence",
+            name = "brands_sequence",
+            sequenceName = "brands_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "categories_sequence"
+            generator = "brands_sequence"
     )
     private int id;
-    @NotBlank
-    @Column(nullable = false)
-    private String categoryName;
+    @NotBlank @Column(nullable = false, unique = true)
+    private String brandName;
 }

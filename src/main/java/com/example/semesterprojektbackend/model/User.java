@@ -31,7 +31,7 @@ public class User implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "users_sequence"
     )
-    private Long id;
+    private int id;
     @NotBlank
     @Column(nullable = false)
     private String firstName;

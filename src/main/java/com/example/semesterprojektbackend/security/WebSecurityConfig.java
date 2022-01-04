@@ -104,6 +104,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/categories")
                 .permitAll();
+        http    // "/category" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/brands")
+                .permitAll();
 
         http    // "/admin" accessible by user with ROLE_ADMIN
                 .authorizeRequests()

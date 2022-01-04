@@ -1,10 +1,9 @@
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Product;
-import com.example.semesterprojektbackend.repositories.ProductRepo;
 import com.example.semesterprojektbackend.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,15 +13,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class ProductController {
 
-    private final ProductRepo productRepo;
     private final ProductService productService;
 
-    public ProductController(ProductRepo productRepo, ProductService productService) {
-        this.productRepo = productRepo;
-        this.productService = productService;
-    }
 
     @GetMapping("/products")
     public List<Product> getProducts() {
@@ -51,7 +46,7 @@ public class ProductController {
         product.setCategory(productDetails.getCategory());
         product.setPrice(productDetails.getPrice());
 
-        Product updatedProduct = productRepo.save(product);
+        Product updatedProduct = productService.save(product);
         return ResponseEntity.ok(updatedProduct);
     }
 

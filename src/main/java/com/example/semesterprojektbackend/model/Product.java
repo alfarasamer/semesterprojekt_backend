@@ -11,7 +11,6 @@ import javax.validation.constraints.Positive;
 @Getter
 @Setter
 @Entity
-@Data
 public class Product {
 
     @SequenceGenerator(
@@ -49,4 +48,8 @@ public class Product {
     @Positive
     @Column(nullable = false)
     private double price;
+
+    @NotBlank
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Brand brand;
 }
