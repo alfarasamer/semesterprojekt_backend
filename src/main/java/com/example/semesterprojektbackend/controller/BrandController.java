@@ -30,7 +30,7 @@ public class BrandController {
     }
 
     @PostMapping()
-    public String addNew(@Valid @RequestBody Brand brand) {
+    public String addNew(@Valid Brand brand) {
         brandService.save(brand);
         return "Brand created";
     }

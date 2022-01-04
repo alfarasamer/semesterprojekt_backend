@@ -14,28 +14,29 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
 
 
-    @GetMapping("/products")
+    @GetMapping()
     public List<Product> getProducts() {
         return productService.findAll();
     }
 
-    @GetMapping("/products/{itemNumber}")
+    @GetMapping("/{itemNumber}")
     public Optional<Product> getProductPath(@PathVariable Long itemNumber) {
         return productService.findById(itemNumber);
     }
 
-    @PostMapping("/products")
+    @PostMapping()
     public String addNew(@Valid @RequestBody Product product) {
         productService.save(product);
-        return "redirect:/products";
+        return "Product created";
     }
 
-    @PutMapping("/products/{itemNumber}")
+    @PutMapping("/{itemNumber}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long itemNumber, @RequestBody Product productDetails) {
         Product product = productService.findById(itemNumber)
                 .orElseThrow(() -> new NullPointerException("Category not exist with id :" + itemNumber));
@@ -50,7 +51,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @DeleteMapping("/products/{itemNumber}")
+    @DeleteMapping("/{itemNumber}")
     public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable Long itemNumber) {
         productService.delete(itemNumber);
         Map<String, Boolean> response = new HashMap<>();

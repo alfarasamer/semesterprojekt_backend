@@ -30,7 +30,7 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public String addNew(@Valid @RequestBody Category category) {
+    public String addNew(@Valid Category category) {
         categoryService.save(category);
         return "Category created";
     }
