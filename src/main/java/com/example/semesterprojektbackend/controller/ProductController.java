@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public String addNew(@Valid @RequestBody Product product) {
+    public String addNew(@Valid Product product) {
         productService.save(product);
         return "Product created";
     }

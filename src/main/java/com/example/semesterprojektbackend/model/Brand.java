@@ -25,6 +25,7 @@ public class Brand {
             generator = "brands_sequence"
     )
     private int id;
-    @NotBlank @Column(nullable = false, unique = true)
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String brandName;
 }

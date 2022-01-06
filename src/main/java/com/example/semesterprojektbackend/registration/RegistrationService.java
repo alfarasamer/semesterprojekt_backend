@@ -22,7 +22,7 @@ public class RegistrationService {
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.
-                test(request.getEmail());
+                test(request.getUsername());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
@@ -32,7 +32,7 @@ public class RegistrationService {
                 new User(
                         request.getFirstName(),
                         request.getLastName(),
-                        request.getEmail(),
+                        request.getUsername(),
                         request.getPassword(),
                         Role.ROLE_USER
                 )
@@ -51,7 +51,7 @@ public class RegistrationService {
                         new IllegalStateException("token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            throw new IllegalStateException("username already confirmed");
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
@@ -62,7 +62,7 @@ public class RegistrationService {
 
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(
-                confirmationToken.getUser().getEmail());
+                confirmationToken.getUser().getUsername());
         return "confirmed";
     }
 }

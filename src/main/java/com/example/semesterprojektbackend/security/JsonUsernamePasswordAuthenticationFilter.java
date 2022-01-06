@@ -33,6 +33,7 @@ public class JsonUsernamePasswordAuthenticationFilter extends UsernamePasswordAu
         } catch (IOException e) {
             throw new InternalAuthenticationServiceException("ERROR_MESSAGE", e);
         }
+
     }
 }
 

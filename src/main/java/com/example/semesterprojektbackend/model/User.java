@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @NotBlank @Column(nullable = false)
     private String lastName;
     @NotBlank @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
     @NotBlank @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
@@ -49,12 +49,12 @@ public class User implements UserDetails {
 
     public User(String firstName,
                    String lastName,
-                   String email,
+                   String username,
                    String password,
                    Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
@@ -73,7 +73,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     public String getFirstName() {

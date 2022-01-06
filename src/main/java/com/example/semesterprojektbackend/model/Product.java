@@ -1,13 +1,13 @@
 package com.example.semesterprojektbackend.model;
 import com.example.semesterprojektbackend.model.enumuration.Size;
 import com.example.semesterprojektbackend.model.enumuration.Status;
+import com.example.semesterprojektbackend.model.enumuration.enumValidation.ValueOfEnum;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -28,10 +28,12 @@ public class Product {
     @NotBlank
     @Column(nullable = false)
     private String productDescription;
-    private String productLongDescription;
-
     @NotBlank
     @Column(nullable = false)
+    private String productLongDescription;
+
+    @Column(nullable = false)
+    @ValueOfEnum(enumClass = Size.class)
     @Enumerated(EnumType.STRING)
     private Size size;
 
@@ -39,8 +41,8 @@ public class Product {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
 
-    @NotBlank
     @Column(nullable = false)
+    @ValueOfEnum(enumClass = Status.class)
     @Enumerated(EnumType.STRING)
     private Status status;
 

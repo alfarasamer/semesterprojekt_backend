@@ -44,7 +44,7 @@ public class BrandController {
         return ResponseEntity.ok(updatedBrand);
     }
 
-    @DeleteMapping("/brands/{brandId}")
+    @DeleteMapping("/{brandId}")
     public ResponseEntity<Map<String, Boolean>> deleteBrand(@PathVariable int brandId) {
         brandService.delete(brandId);
         Map<String, Boolean> response = new HashMap<>();

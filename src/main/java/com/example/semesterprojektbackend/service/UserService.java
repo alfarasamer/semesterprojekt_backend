@@ -19,31 +19,31 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final static String USER_NOT_FOUND_MSG =
-            "user with email %s not found";
+            "user with username %s not found";
 
     private final UserRepo userRepo;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        return userRepo.findByEmail(email)
+        return userRepo.findByUsername(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
-                                String.format(USER_NOT_FOUND_MSG, email)));
+                                String.format(USER_NOT_FOUND_MSG, username)));
     }
 
     public String signUpUser(User user) {
         boolean userExists = userRepo
-                .findByEmail(user.getEmail())
+                .findByUsername(user.getUsername())
                 .isPresent();
 
         if (userExists) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
 
-            throw new IllegalStateException("email already taken");
+            throw new IllegalStateException("username already taken");
         }
 
         String encodedPassword = bCryptPasswordEncoder
@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    public int enableUser(String email) {
-        return userRepo.enableUser(email);
+    public int enableUser(String username) {
+        return userRepo.enableUser(username);
     }
 }

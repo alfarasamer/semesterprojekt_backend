@@ -70,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /* security configuration */
-
         http
                 // configure CORS -- uses a Bean by the name of corsConfigurationSource (see method below)
                 // CORS must be configured prior to Spring Security
@@ -106,8 +105,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
         http    // "/category" accessible by everybody
                 .authorizeRequests()
+                .antMatchers("/categories/*")
+                .permitAll();
+        http    // "/brands" accessible by everybody
+                .authorizeRequests()
                 .antMatchers("/brands")
                 .permitAll();
+        http    // "/brands" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/brands/*")
+                .permitAll();
+        http    // "/category" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/username")
+                .permitAll();
+
 
         http    // "/admin" accessible by user with ROLE_ADMIN
                 .authorizeRequests()
