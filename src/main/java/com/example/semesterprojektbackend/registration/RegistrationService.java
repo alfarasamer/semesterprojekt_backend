@@ -49,7 +49,6 @@ public class RegistrationService {
                 .getToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
-
         if (confirmationToken.getConfirmedAt() != null) {
             throw new IllegalStateException("username already confirmed");
         }

@@ -30,13 +30,13 @@ public class BrandController {
     }
 
     @PostMapping()
-    public String addNew(@Valid Brand brand) {
+    public String addNew(@Valid @RequestBody Brand brand) {
         brandService.save(brand);
         return "Brand created";
     }
 
     @PutMapping("/{brandId}")
-    public ResponseEntity<Brand> updateBrand(@PathVariable int brandId, @RequestBody Brand brandDetails) {
+    public ResponseEntity<Brand> updateBrand(@PathVariable int brandId,@RequestBody Brand brandDetails) {
         Brand brand = brandService.findById(brandId)
                 .orElseThrow(() -> new NullPointerException("Brand not exist with id :" + brandId));
         brand.setBrandName(brandDetails.getBrandName());

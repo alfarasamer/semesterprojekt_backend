@@ -32,5 +32,8 @@ public class BrandService {
         brandRepo.deleteById(id);
     }
 
-
+    //count brands
+    public Long countById() {
+      return  brandRepo.count();
+    }
 }

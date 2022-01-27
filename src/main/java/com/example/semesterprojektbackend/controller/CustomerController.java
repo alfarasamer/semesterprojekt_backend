@@ -23,11 +23,11 @@ public class CustomerController {
     return null;
     }
 
-    @PutMapping("/users/{userId}")
+    /*@PutMapping("/users/{userId}")
     public Customer putUserPath(@PathVariable int userId, @RequestBody Customer customer) {
         // TODO: 29/06/2021 to edit user data
     return null;
-    }
+    }*/
 
     @DeleteMapping("/user/{userId}")
     public Customer deleteUserPath(@PathVariable int userId) {

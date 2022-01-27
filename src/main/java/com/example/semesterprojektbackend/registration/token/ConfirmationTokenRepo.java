@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Transactional(readOnly = true)
 public interface ConfirmationTokenRepo
         extends JpaRepository<ConfirmationToken, Long> {
-
+    Optional<ConfirmationToken> findByUserId(Long id);
     Optional<ConfirmationToken> findByToken(String token);
 
     @Transactional

@@ -1,5 +1,7 @@
 package com.example.semesterprojektbackend.model.enumuration.enumValidation;
 
+import org.springframework.context.annotation.Bean;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;

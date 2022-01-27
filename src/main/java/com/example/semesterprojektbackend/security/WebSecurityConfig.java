@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -89,11 +90,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/users")
                 .permitAll();
+        http    // "/users" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/users/*")
+                .permitAll();
+        http    // "/logout" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/logout")
+                .permitAll();
+        http.logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
+                .permitAll();
+        /*http.formLogin()
+        .loginProcessingUrl("/login")
+        .permitAll();
+
+        */
 
         http    // "/products" accessible by everybody
                 .authorizeRequests()
                 .antMatchers("/products")
                 .permitAll();
+        http    // "/products" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/products/*")
+                .permitAll();
+        http    // "/products" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/upload-product-image")
+                .permitAll();
+        http    // "/products" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/token/*")
+                .permitAll();
+
+
         http    // "/products" accessible by everybody
                 .authorizeRequests()
                 .antMatchers("/registration")
@@ -105,8 +139,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
         http    // "/category" accessible by everybody
                 .authorizeRequests()
-                .antMatchers("/categories/*")
+                .antMatchers("/categories/**")
                 .permitAll();
+        http    // "/category" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/uploadMultiFiles")
+                .permitAll();
+
+
         http    // "/brands" accessible by everybody
                 .authorizeRequests()
                 .antMatchers("/brands")
@@ -119,7 +159,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/username")
                 .permitAll();
-
+        http    // "/counts" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/counts")
+                .permitAll();
+        http    // "/active" accessible by everybody
+                .authorizeRequests()
+                .antMatchers("/products/activeproducts/*")
+                .permitAll();
 
         http    // "/admin" accessible by user with ROLE_ADMIN
                 .authorizeRequests()

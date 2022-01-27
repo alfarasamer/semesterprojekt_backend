@@ -5,21 +5,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer{
 
-    @SequenceGenerator(
-            name = "customers_sequence",
-            sequenceName = "customers_sequence",
-            allocationSize = 1
-    )
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "customers_sequence"
-    )
     private int id;
     private String salutation;
     private String firstname;

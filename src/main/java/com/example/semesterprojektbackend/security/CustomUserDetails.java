@@ -23,6 +23,9 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
 
+    // TODO: 06/01/2022 getUserFirstName and LastName
+    //public String getUserFirstName(){return this.user.getFirstName();}
+
     @Override
     public String getPassword() {
         return this.user.getPassword();
@@ -52,4 +55,6 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

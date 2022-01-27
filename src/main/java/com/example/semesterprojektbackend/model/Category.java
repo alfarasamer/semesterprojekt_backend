@@ -1,5 +1,7 @@
 package com.example.semesterprojektbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Getter
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Category {
 
     @SequenceGenerator(
@@ -26,6 +29,6 @@ public class Category {
     )
     private int id;
     @NotBlank
-    @Column(nullable = false , unique = true)
+    @Column(nullable = false, unique = true)
     private String categoryName;
 }

@@ -30,13 +30,13 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public String addNew(@Valid Category category) {
+    public String addNew(@Valid @RequestBody Category category) {
         categoryService.save(category);
         return "Category created";
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<Category> updateCategory(@PathVariable int categoryId, @RequestBody Category categoryDetails) {
+    public ResponseEntity<Category> updateCategory(@PathVariable int categoryId,@RequestBody Category categoryDetails) {
         Category category = categoryService.findById(categoryId)
                 .orElseThrow(() -> new NullPointerException("Category not exist with id :" + categoryId));
         category.setCategoryName(categoryDetails.getCategoryName());
@@ -51,5 +51,4 @@ public class CategoryController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
-
 }

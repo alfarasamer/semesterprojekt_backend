@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,11 +40,7 @@ public class UserService implements UserDetailsService {
         boolean userExists = userRepo
                 .findByUsername(user.getUsername())
                 .isPresent();
-
         if (userExists) {
-            // TODO check of attributes are the same and
-            // TODO if email not confirmed send confirmation email.
-
             throw new IllegalStateException("username already taken");
         }
 
@@ -64,13 +62,28 @@ public class UserService implements UserDetailsService {
 
         confirmationTokenService.saveConfirmationToken(
                 confirmationToken);
-
-//        TODO: SEND EMAIL
-
         return token;
     }
 
     public int enableUser(String username) {
         return userRepo.enableUser(username);
     }
+
+    public List<User> findAll(){
+        return userRepo.findAll();
+    }
+
+    public Optional<User> findById(Long id){
+        return userRepo.findById(id);
+    }
+
+    public User save (User user){
+         userRepo.save(user);
+        return user;
+    }
+
+    public void delete (Long id){
+        userRepo.deleteById(id);
+    }
+
 }

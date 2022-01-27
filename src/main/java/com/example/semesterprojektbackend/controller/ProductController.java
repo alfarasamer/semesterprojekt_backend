@@ -1,11 +1,13 @@
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Product;
+import com.example.semesterprojektbackend.model.enumuration.Status;
 import com.example.semesterprojektbackend.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.NamedQuery;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +23,13 @@ public class ProductController {
 
 
     @GetMapping()
-    public List<Product> getProducts() {
+    public Iterable<Product> getProducts() {
         return productService.findAll();
+    }
+
+    @GetMapping("/activeproducts")
+    public List<Product> getActiveProducts(){
+        return productService.getActiveProducts();
     }
 
     @GetMapping("/{itemNumber}")
@@ -31,21 +38,23 @@ public class ProductController {
     }
 
     @PostMapping()
-    public String addNew(@Valid Product product) {
+    public String addNew(@Valid @RequestBody Product product) {
         productService.save(product);
         return "Product created";
     }
 
     @PutMapping("/{itemNumber}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long itemNumber, @RequestBody Product productDetails) {
+    public ResponseEntity<Product> updateProduct(@Valid @PathVariable Long itemNumber,@RequestBody Product productDetails) {
         Product product = productService.findById(itemNumber)
-                .orElseThrow(() -> new NullPointerException("Category not exist with id :" + itemNumber));
+                .orElseThrow(() -> new NullPointerException("Product with itemNumber "+ itemNumber+" doesn't exist"));
 
-        product.setProductDescription(productDetails.getProductDescription());
-        product.setProductLongDescription(productDetails.getProductLongDescription());
-        product.setSize(productDetails.getSize());
-        product.setCategory(productDetails.getCategory());
         product.setPrice(productDetails.getPrice());
+        product.setName(productDetails.getName());
+        product.setDescription(productDetails.getDescription());
+        product.setSize(productDetails.getSize());
+        product.setStatus(productDetails.getStatus());
+        product.setBrand(productDetails.getBrand());
+        product.setCategory(productDetails.getCategory());
 
         Product updatedProduct = productService.save(product);
         return ResponseEntity.ok(updatedProduct);
@@ -58,5 +67,5 @@ public class ProductController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
-
+//Todo create getMapping to return active products only (for customers)
 }

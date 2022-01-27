@@ -1,7 +1,6 @@
 package com.example.semesterprojektbackend.model;
 
 import com.example.semesterprojektbackend.model.enumuration.Role;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,16 +9,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 public class User implements UserDetails {
+
 
     @SequenceGenerator(
             name = "users_sequence",
@@ -31,21 +32,24 @@ public class User implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "users_sequence"
     )
-    private int id;
+    private Long id;
     @NotBlank
     @Column(nullable = false)
     private String firstName;
     @NotBlank @Column(nullable = false)
     private String lastName;
     @NotBlank @Column(nullable = false, unique = true)
+    @Email
     private String username;
     @NotBlank @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+    @NotNull
     private Boolean locked = false;
-    private Boolean enabled = false;
+    @NotNull
+    private Boolean enabled = true;
 
     public User(String firstName,
                    String lastName,
@@ -65,7 +69,6 @@ public class User implements UserDetails {
                 new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(authority);
     }
-
     @Override
     public String getPassword() {
         return password;
@@ -103,4 +106,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 }

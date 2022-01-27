@@ -1,16 +1,23 @@
 package com.example.semesterprojektbackend.model;
 import com.example.semesterprojektbackend.model.enumuration.Size;
 import com.example.semesterprojektbackend.model.enumuration.Status;
-import com.example.semesterprojektbackend.model.enumuration.enumValidation.ValueOfEnum;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.context.annotation.Bean;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Table(name = "product",
+        uniqueConstraints = { @UniqueConstraint(columnNames =
+                {"name","size","description","price"}) })
 public class Product {
 
     @SequenceGenerator(
@@ -24,34 +31,39 @@ public class Product {
             generator = "products_sequence"
     )
     private Long itemNumber;
-
     @NotBlank
     @Column(nullable = false)
-    private String productDescription;
+    @Length(min = 4, message = "Product Name should be at least 4 Chars")
+    private String name;
     @NotBlank
     @Column(nullable = false)
-    private String productLongDescription;
+    private String description;
 
-    @Column(nullable = false)
-    @ValueOfEnum(enumClass = Size.class)
     @Enumerated(EnumType.STRING)
+    @NotNull
+
+    //@ValueOfEnum(enumClass = Size.class)
     private Size size;
 
-    @NotBlank
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Category category;
 
-    @Column(nullable = false)
-    @ValueOfEnum(enumClass = Status.class)
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Status status;
 
-    @NotBlank
     @Positive
     @Column(nullable = false)
     private double price;
 
-    @NotBlank
-    @ManyToOne(cascade = CascadeType.PERSIST)
+
+    @ManyToOne
     private Brand brand;
+
+
+private String statusNew;
+
+    private String imageUrl;
+
+
 }
