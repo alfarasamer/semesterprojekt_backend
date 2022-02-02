@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -63,6 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
@@ -72,108 +72,46 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         /* security configuration */
         http
-                // configure CORS -- uses a Bean by the name of corsConfigurationSource (see method below)
-                // CORS must be configured prior to Spring Security
                 .cors()
-                //.and()
-                //  .sessionManagement()
-                //.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                    .authorizeRequests()
-//                    .antMatchers("/*")
-//                    .permitAll()
                 .and()
                 .csrf()
                 .disable();
+        // accessible by ROLE_ADMIN
+        http
+                .authorizeRequests()
+                .antMatchers("/admin/*",
+                        "/users", "/users/*",
+                        "/products", "/products/*",
+                        "/upload-product-image",
+                        "/categories",
+                        "/categories/**",
+                        "/brands",
+                        "/brands/*",
+                        "/counts"
+                )
+                .access("hasRole('ROLE_ADMIN')");
 
-        http    // "/users" accessible by everybody
+        // accessible by ROLE_ADMIN
+        http
                 .authorizeRequests()
-                .antMatchers("/users")
+                .antMatchers("/token/*", "/username",
+                        "/activeproducts/**",
+                        "/registration",
+                        "/logout",
+                        "/users/token/**"
+                )
                 .permitAll();
-        http    // "/users" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/users/*")
-                .permitAll();
-        http    // "/logout" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/logout")
-                .permitAll();
+
+        // Delete Cookie on Logout
         http.logout()
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .permitAll();
-        /*http.formLogin()
-        .loginProcessingUrl("/login")
-        .permitAll();
 
-        */
-
-        http    // "/products" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/products")
-                .permitAll();
-        http    // "/products" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/products/*")
-                .permitAll();
-        http    // "/products" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/upload-product-image")
-                .permitAll();
-        http    // "/products" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/token/*")
-                .permitAll();
-
-
-        http    // "/products" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/registration")
-                .permitAll();
-
-        http    // "/category" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/categories")
-                .permitAll();
-        http    // "/category" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/categories/**")
-                .permitAll();
-        http    // "/category" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/uploadMultiFiles")
-                .permitAll();
-
-
-        http    // "/brands" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/brands")
-                .permitAll();
-        http    // "/brands" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/brands/*")
-                .permitAll();
-        http    // "/category" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/username")
-                .permitAll();
-        http    // "/counts" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/counts")
-                .permitAll();
-        http    // "/active" accessible by everybody
-                .authorizeRequests()
-                .antMatchers("/products/activeproducts/*")
-                .permitAll();
-
-        http    // "/admin" accessible by user with ROLE_ADMIN
-                .authorizeRequests()
-                .antMatchers("/admin")
-                .access("hasRole('ROLE_ADMIN')");
-
-        http    // lock every route
+        // lock every other route if any
+        http
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated();
@@ -202,13 +140,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5500"));
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
-        // setAllowCredentials(true) is important, otherwise:
-        // The value of the 'Access-Control-Allow-Origin' header in the response must
-        // not be the wildcard '*' when the request's credentials mode is 'include'.
         configuration.setAllowCredentials(true);
-
-        // setAllowedHeaders is important! Without it, OPTIONS preflight request
-        // will fail with 403 Invalid CORS request
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

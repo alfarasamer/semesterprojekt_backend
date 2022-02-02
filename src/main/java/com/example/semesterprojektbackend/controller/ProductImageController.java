@@ -27,7 +27,6 @@ public class ProductImageController {
     private final ProductService productService;
     private final ProductRepo productRepo;
 
-//todo move to application proerties
     private static final String UPLOAD_DIR = System.getProperty("user.home") +"\\Desktop\\Webshop-Projekt-Final\\SemesterWebShop-Frontend\\images\\products";
 
 

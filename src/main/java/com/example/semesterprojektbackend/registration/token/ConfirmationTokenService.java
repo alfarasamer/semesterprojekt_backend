@@ -13,7 +13,8 @@ import java.util.Optional;
 public class ConfirmationTokenService {
 
     private final ConfirmationTokenRepo confirmationTokenRepo;
-private final UserRepo userRepo;
+    private final UserRepo userRepo;
+
     public void saveConfirmationToken(ConfirmationToken token) {
         confirmationTokenRepo.save(token);
     }
@@ -21,6 +22,7 @@ private final UserRepo userRepo;
     public Optional<ConfirmationToken> getToken(String token) {
         return confirmationTokenRepo.findByToken(token);
     }
+
     public TokenDTO getTokenByUserId(Long id) {
         Optional<ConfirmationToken> confirmationToken = confirmationTokenRepo.findByUserId(id);
         TokenDTO tokenDTO = new TokenDTO();

@@ -16,17 +16,9 @@ import java.time.LocalDateTime;
 public class RegistrationService {
 
     private final UserService userService;
-    private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
-    //private final EmailSender emailSender;
 
     public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.
-                test(request.getUsername());
-
-        if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
-        }
 
         String token = userService.signUpUser(
                 new User(
@@ -37,9 +29,7 @@ public class RegistrationService {
                         Role.ROLE_USER
                 )
         );
-
-        //String link = "http://localhost:8080/registration/confirm?token=" + token;
-
+        System.out.println("This is TOken"+token.toString());
         return token;
     }
 

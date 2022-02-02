@@ -17,7 +17,7 @@ public class CountsService {
     private final BrandRepo brandRepo;
     private final ProductRepo productRepo;
 
-    public Counts getCounts(){
+    public Counts getCounts() {
         Counts counts = new Counts();
 
         counts.setBrandsCount(this.brandRepo.count());

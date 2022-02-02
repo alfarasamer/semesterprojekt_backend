@@ -36,12 +36,15 @@ public class User implements UserDetails {
     @NotBlank
     @Column(nullable = false)
     private String firstName;
-    @NotBlank @Column(nullable = false)
+    @NotBlank
+    @Column(nullable = false)
     private String lastName;
-    @NotBlank @Column(nullable = false, unique = true)
+    @NotBlank
+    @Column(nullable = false, unique = true)
     @Email
     private String username;
-    @NotBlank @Column(nullable = false)
+    @NotBlank
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,10 +55,10 @@ public class User implements UserDetails {
     private Boolean enabled = true;
 
     public User(String firstName,
-                   String lastName,
-                   String username,
-                   String password,
-                   Role role) {
+                String lastName,
+                String username,
+                String password,
+                Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -69,6 +72,7 @@ public class User implements UserDetails {
                 new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(authority);
     }
+
     @Override
     public String getPassword() {
         return password;

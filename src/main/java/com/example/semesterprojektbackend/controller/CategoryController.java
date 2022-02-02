@@ -36,7 +36,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<Category> updateCategory(@PathVariable int categoryId,@RequestBody Category categoryDetails) {
+    public ResponseEntity<Category> updateCategory(@PathVariable int categoryId, @RequestBody Category categoryDetails) {
         Category category = categoryService.findById(categoryId)
                 .orElseThrow(() -> new NullPointerException("Category not exist with id :" + categoryId));
         category.setCategoryName(categoryDetails.getCategoryName());

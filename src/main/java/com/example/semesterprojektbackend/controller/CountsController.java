@@ -14,7 +14,7 @@ public class CountsController {
     private final CountsService countsService;
 
     @GetMapping()
-    public Counts getCounts(){
+    public Counts getCounts() {
         return countsService.getCounts();
     }
 }

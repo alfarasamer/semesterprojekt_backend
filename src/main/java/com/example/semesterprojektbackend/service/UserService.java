@@ -1,6 +1,7 @@
 package com.example.semesterprojektbackend.service;
 
 import com.example.semesterprojektbackend.model.User;
+import com.example.semesterprojektbackend.model.enumuration.Role;
 import com.example.semesterprojektbackend.registration.token.ConfirmationToken;
 import com.example.semesterprojektbackend.registration.token.ConfirmationTokenService;
 import com.example.semesterprojektbackend.repositories.UserRepo;
@@ -41,14 +42,15 @@ public class UserService implements UserDetailsService {
                 .findByUsername(user.getUsername())
                 .isPresent();
         if (userExists) {
-            throw new IllegalStateException("username already taken");
+            throw new IllegalStateException(": username already taken");
         }
 
         String encodedPassword = bCryptPasswordEncoder
                 .encode(user.getPassword());
 
         user.setPassword(encodedPassword);
-
+        System.out.println("User Service"+user.toString());
+        user.setRole(Role.ROLE_USER);
         userRepo.save(user);
 
         String token = UUID.randomUUID().toString();
@@ -69,20 +71,20 @@ public class UserService implements UserDetailsService {
         return userRepo.enableUser(username);
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userRepo.findAll();
     }
 
-    public Optional<User> findById(Long id){
+    public Optional<User> findById(Long id) {
         return userRepo.findById(id);
     }
 
-    public User save (User user){
-         userRepo.save(user);
+    public User save(User user) {
+        userRepo.save(user);
         return user;
     }
 
-    public void delete (Long id){
+    public void delete(Long id) {
         userRepo.deleteById(id);
     }
 

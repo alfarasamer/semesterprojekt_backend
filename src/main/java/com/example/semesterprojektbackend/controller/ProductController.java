@@ -1,13 +1,11 @@
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Product;
-import com.example.semesterprojektbackend.model.enumuration.Status;
 import com.example.semesterprojektbackend.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.NamedQuery;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -16,37 +14,36 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
 
 
-    @GetMapping()
+    @GetMapping("/products")
     public Iterable<Product> getProducts() {
         return productService.findAll();
     }
 
     @GetMapping("/activeproducts")
-    public List<Product> getActiveProducts(){
+    public List<Product> getActiveProducts() {
         return productService.getActiveProducts();
     }
 
-    @GetMapping("/{itemNumber}")
+    @GetMapping("/products/{itemNumber}")
     public Optional<Product> getProductPath(@PathVariable Long itemNumber) {
         return productService.findById(itemNumber);
     }
 
-    @PostMapping()
+    @PostMapping("/products")
     public String addNew(@Valid @RequestBody Product product) {
         productService.save(product);
         return "Product created";
     }
 
-    @PutMapping("/{itemNumber}")
-    public ResponseEntity<Product> updateProduct(@Valid @PathVariable Long itemNumber,@RequestBody Product productDetails) {
+    @PutMapping("/products/{itemNumber}")
+    public ResponseEntity<Product> updateProduct(@Valid @PathVariable Long itemNumber, @RequestBody Product productDetails) {
         Product product = productService.findById(itemNumber)
-                .orElseThrow(() -> new NullPointerException("Product with itemNumber "+ itemNumber+" doesn't exist"));
+                .orElseThrow(() -> new NullPointerException("Product with itemNumber " + itemNumber + " doesn't exist"));
 
         product.setPrice(productDetails.getPrice());
         product.setName(productDetails.getName());
@@ -60,12 +57,11 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @DeleteMapping("/{itemNumber}")
+    @DeleteMapping("/products/{itemNumber}")
     public ResponseEntity<Map<String, Boolean>> deleteProduct(@PathVariable Long itemNumber) {
         productService.delete(itemNumber);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
-//Todo create getMapping to return active products only (for customers)
 }

@@ -15,21 +15,22 @@ public class CartService {
     private final CartRepo cartRepo;
 
     //Return all carts for Admin
-    public List<Cart> getCart(){
+    public List<Cart> getCart() {
         return cartRepo.findAll();
     }
 
     // Save Cart
-    public void save (Cart cart){
+    public void save(Cart cart) {
         cartRepo.save(cart);
     }
 
     //Find Cart by Id
-    public Optional<Cart> findById(int id){
+    public Optional<Cart> findById(int id) {
         return cartRepo.findById(id);
     }
+
     // Delete Cart
-    public void delete (int id){
+    public void delete(int id) {
         cartRepo.deleteById(id);
     }
 }

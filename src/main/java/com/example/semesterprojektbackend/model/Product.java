@@ -1,9 +1,9 @@
 package com.example.semesterprojektbackend.model;
+
 import com.example.semesterprojektbackend.model.enumuration.Size;
 import com.example.semesterprojektbackend.model.enumuration.Status;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,8 +16,8 @@ import javax.validation.constraints.Positive;
 @Setter
 @Entity
 @Table(name = "product",
-        uniqueConstraints = { @UniqueConstraint(columnNames =
-                {"name","size","description","price"}) })
+        uniqueConstraints = {@UniqueConstraint(columnNames =
+                {"name", "size", "description", "price"})})
 public class Product {
 
     @SequenceGenerator(
@@ -59,9 +59,6 @@ public class Product {
 
     @ManyToOne
     private Brand brand;
-
-
-private String statusNew;
 
     private String imageUrl;
 
