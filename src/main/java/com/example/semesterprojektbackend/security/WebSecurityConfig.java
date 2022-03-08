@@ -87,10 +87,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/categories/**",
                         "/brands",
                         "/brands/*",
-                        "/counts"
+                        "/counts",
+                        "/cart/*"
                 )
                 .access("hasRole('ROLE_ADMIN')");
-
+        // accessible by Admin and User
+       http
+                .authorizeRequests()
+                .antMatchers("/cart/*"
+                )
+                .access("hasRole('ROLE_USER')");
         // accessible by ROLE_ADMIN
         http
                 .authorizeRequests()
