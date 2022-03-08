@@ -1,6 +1,7 @@
 package com.example.semesterprojektbackend.controller;
 
 import com.example.semesterprojektbackend.model.Product;
+import com.example.semesterprojektbackend.model.enumuration.Status;
 import com.example.semesterprojektbackend.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +30,24 @@ public class ProductController {
         return productService.getActiveProducts();
     }
 
-    @GetMapping("/products/{itemNumber}")
+    @GetMapping("/product-by-item-number/{itemNumber}")
     public Optional<Product> getProductPath(@PathVariable Long itemNumber) {
-        return productService.findById(itemNumber);
+        if (productService.findById(itemNumber).isPresent()){
+            if (productService.findById(itemNumber).get().getStatus()== Status.ACTIVE){
+                return productService.findById(itemNumber);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @GetMapping("/products/{itemNumber}")
+    public Optional<Product> getProductById(@PathVariable Long itemNumber) {
+        if (productService.findById(itemNumber).isPresent()){
+            if (productService.findById(itemNumber).get().getStatus()== Status.ACTIVE){
+                return productService.findById(itemNumber);
+            }
+        }
+        return Optional.empty();
     }
 
     @PostMapping("/products")

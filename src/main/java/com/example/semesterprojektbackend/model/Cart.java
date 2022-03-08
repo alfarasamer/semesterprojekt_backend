@@ -1,9 +1,10 @@
 package com.example.semesterprojektbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,18 +12,23 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @OneToMany(mappedBy = "itemNumber")
-    private List<Product> products;
+    private Long id;
+    @OneToMany(mappedBy = "cart")
+    @JsonManagedReference
+    private List<CartItem> cartItems;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    /*@OneToOne(cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(
             nullable = false,
             name = "user_id"
-    )
+    )*/
+    @OneToOne(cascade = CascadeType.REMOVE)
+    //@JoinColumn(name = "user_id")
     private User user;
 }

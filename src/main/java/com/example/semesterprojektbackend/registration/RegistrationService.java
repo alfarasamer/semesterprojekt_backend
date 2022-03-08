@@ -29,7 +29,7 @@ public class RegistrationService {
                         Role.ROLE_USER
                 )
         );
-        System.out.println("This is TOken"+token.toString());
+        System.out.println("This is Token"+token.toString());
         return token;
     }
 

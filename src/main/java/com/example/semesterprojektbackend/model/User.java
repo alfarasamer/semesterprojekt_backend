@@ -1,6 +1,7 @@
 package com.example.semesterprojektbackend.model;
 
 import com.example.semesterprojektbackend.model.enumuration.Role;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.Collections;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User implements UserDetails {
 
@@ -53,7 +55,8 @@ public class User implements UserDetails {
     private Boolean locked = false;
     @NotNull
     private Boolean enabled = true;
-
+    @OneToOne (cascade = CascadeType.ALL)
+    Cart cart = new Cart();
     public User(String firstName,
                 String lastName,
                 String username,

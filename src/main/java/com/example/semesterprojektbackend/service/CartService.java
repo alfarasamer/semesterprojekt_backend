@@ -29,6 +29,14 @@ public class CartService {
         return cartRepo.findById(id);
     }
 
+    //Create Cart On Registraiton
+    public Cart createCart(Long userId){
+        Cart cart = new Cart();
+        cart.setId(userId);
+        save(cart);
+        return cart;
+    }
+
     // Delete Cart
     public void delete(int id) {
         cartRepo.deleteById(id);

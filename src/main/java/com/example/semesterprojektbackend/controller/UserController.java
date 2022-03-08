@@ -36,26 +36,40 @@ public class UserController {
         return userDTOService.findByToken(token);
     }
 
-
     @PostMapping()
     public String addNew(@Valid @RequestBody User user) {
         userService.signUpUser(user);
         return "User created";
     }
 
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new NullPointerException("User with Id " + id + " doesn't exist"));
 
         user.setFirstName(userDetails.getFirstName());
         user.setLastName(userDetails.getLastName());
+        user.setPassword(user.getPassword());
         user.setEnabled(userDetails.getEnabled());
         user.setLocked(userDetails.getLocked());
         user.setRole(userDetails.getRole());
 
         User updatedUser = userService.save(user);
         return ResponseEntity.ok(updatedUser);
+    }*/
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        User user = userService.updateUser(id,userDetails);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("change-password/{id}")
+    public ResponseEntity<User> updateUserPassword(@PathVariable Long id, @RequestBody User userDetails) {
+        User user = userService.updateUserPassword(id,userDetails);
+
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/{userId}")
@@ -65,7 +79,5 @@ public class UserController {
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
     }
-
-
 
 }
