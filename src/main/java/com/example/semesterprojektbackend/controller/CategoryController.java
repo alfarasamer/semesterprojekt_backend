@@ -14,28 +14,31 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping()
+    @GetMapping("/categories")
     public List<Category> getCategory() {
         return categoryService.getCategories();
     }
+    @GetMapping("/categories-names")
+    public List<Category> getCategoriesNames() {
+        return categoryService.getCategories();
+    }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/categories/{categoryId}")
     public Optional<Category> findById(@PathVariable int categoryId) {
         return categoryService.findById(categoryId);
     }
 
-    @PostMapping()
+    @PostMapping("/categories")
     public String addNew(@Valid @RequestBody Category category) {
         categoryService.save(category);
         return "Category created";
     }
 
-    @PutMapping("/{categoryId}")
+    @PutMapping("/categories/{categoryId}")
     public ResponseEntity<Category> updateCategory(@PathVariable int categoryId, @RequestBody Category categoryDetails) {
         Category category = categoryService.findById(categoryId)
                 .orElseThrow(() -> new NullPointerException("Category not exist with id :" + categoryId));
@@ -44,7 +47,7 @@ public class CategoryController {
         return ResponseEntity.ok(updatedCategory);
     }
 
-    @DeleteMapping("/{categoryId}")
+    @DeleteMapping("/categories/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(@PathVariable int categoryId) {
         categoryService.delete(categoryId);
         Map<String, Boolean> response = new HashMap<>();

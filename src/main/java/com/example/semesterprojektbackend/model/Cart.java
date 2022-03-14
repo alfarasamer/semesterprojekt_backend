@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,10 +19,11 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToMany(mappedBy = "cart")
+    //@Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JsonManagedReference
     private List<CartItem> cartItems;
-
     /*@OneToOne(cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(

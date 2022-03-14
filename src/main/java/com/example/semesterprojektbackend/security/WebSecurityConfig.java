@@ -88,13 +88,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/brands",
                         "/brands/*",
                         "/counts",
-                        "/cart/*"
+                        "/cart/**",
+                        "/cartdto"
                 )
                 .access("hasRole('ROLE_ADMIN')");
         // accessible by Admin and User
        http
                 .authorizeRequests()
-                .antMatchers("/cart/*"
+                .antMatchers("/cart/**","/cartdto"
                 )
                 .access("hasRole('ROLE_USER')");
         // accessible by ROLE_ADMIN
@@ -105,7 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/registration",
                         "/logout",
                         "/users/token/**",
-                        "/product-by-item-number/**"
+                        "/product-by-item-number/**",
+                        "/categories-names"
                 )
                 .permitAll();
 
