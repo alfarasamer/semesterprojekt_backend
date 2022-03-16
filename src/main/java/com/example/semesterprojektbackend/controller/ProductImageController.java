@@ -7,10 +7,9 @@ import com.example.semesterprojektbackend.repositories.ProductRepo;
 import com.example.semesterprojektbackend.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -27,12 +26,13 @@ public class ProductImageController {
     private final ProductService productService;
     private final ProductRepo productRepo;
 
-    private static final String UPLOAD_DIR = System.getProperty("user.home") +"\\Desktop\\Webshop-Projekt-Final\\SemesterWebShop-Frontend\\images\\products";
+    //private static final String UPLOAD_DIR = System.getProperty("user.home") +"\\desktop\\Projekt Samer\\SemesterProjektBackend - Backup\\src\\main\\resources\\images\\products";
+    private static final String UPLOAD_DIR ="./src/main/resources/images/products";
 
+//
 
     @PostMapping("/upload-product-image")
     public ResponseEntity<?> multiUploadFileModel(@ModelAttribute ImageDTO form) {
-
         System.out.println("ItemNumber:" + form.getItemNumber());
         Long itemNumber = form.getItemNumber();
         String uploadDirectory;
@@ -76,6 +76,7 @@ public class ProductImageController {
 
             Files.write(path, bytes);
 
+
             sb.append(uploadFilePath);
 
         return sb.toString();
@@ -90,5 +91,9 @@ public class ProductImageController {
         return "Product image URL Created";
     }
 
+@GetMapping(path = "/get-product-image/{id}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
+public @ResponseBody byte[] getImg(@PathVariable long id) {
+    return productService.getImg(id);
+}
 }
 

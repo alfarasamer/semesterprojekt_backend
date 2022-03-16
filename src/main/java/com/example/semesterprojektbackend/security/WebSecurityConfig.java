@@ -107,7 +107,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/logout",
                         "/users/token/**",
                         "/product-by-item-number/**",
-                        "/categories-names"
+                        "/categories-names",
+                        "/get-product-image/**"
                 )
                 .permitAll();
 

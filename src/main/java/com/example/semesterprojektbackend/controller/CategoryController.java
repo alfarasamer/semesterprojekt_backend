@@ -22,6 +22,7 @@ public class CategoryController {
     public List<Category> getCategory() {
         return categoryService.getCategories();
     }
+    //public/categories
     @GetMapping("/categories-names")
     public List<Category> getCategoriesNames() {
         return categoryService.getCategories();

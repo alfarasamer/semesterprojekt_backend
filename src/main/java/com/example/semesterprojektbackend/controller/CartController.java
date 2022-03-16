@@ -36,7 +36,7 @@ private final CartService cartService;
         CartDTO cartDTO = cartService.getCartDTO(currentUserName);
         return  cartDTO;
     }
-
+//add-product
     @PutMapping("/cart/add-to-cart/{productId}")
     public ResponseEntity<?> addToCart(@PathVariable Long productId){
         final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -45,6 +45,7 @@ private final CartService cartService;
 
         return ResponseEntity.ok().build();
     }
+//remove-product
     @PutMapping("/cart/remove-from-cart/{productId}")
     public ResponseEntity<?> removeFromCart(@PathVariable Long productId){
         final String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
